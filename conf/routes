@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+
+GET     /               controllers.Application.index
+GET     /quotes/      controllers.QuoteController.list()
+#GET     /login           controllers.QuoteController.login()
+#POST    /login                      controllers.QuoteController.authenticate()
+GET     /info     controllers.QuoteController.info()
+GET     /presentation     controllers.QuoteController.presentation()
+GET     /about    controllers.QuoteController.about()
+GET     /quotes/new   controllers.QuoteController.newQuote()
+GET     /quotes/:id   controllers.QuoteController.details(id: models.Quote)
+POST    /quotes/      controllers.QuoteController.save()
++nocsrf
+POST    /quotes/:id/addrate    controllers.QuoteController.addRating(id:Long)
++nocsrf
+POST    /quotes/:id/subrate      controllers.QuoteController.subRating(id:Long)
++nocsrf
+DELETE  /quotes/:id   controllers.QuoteController.delete(id:Long)
+
+GET     /students/      controllers.Students.list()
+GET     /students/new   controllers.Students.newStudent()
+GET     /students/:studId   controllers.Students.details(studId: models.Student)
+POST    /students/      controllers.Students.save()
++nocsrf
+DELETE  /students/:studId   controllers.Students.delete(studId:Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file      controllers.Assets.at(path="/public", file)
+->      /webjars           webjars.Routes
+
+
+GET     /picture/:studId    controllers.Students.picture(studId:Long)

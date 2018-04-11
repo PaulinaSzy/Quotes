@@ -1,0 +1,66 @@
+@(quotes: List[Quote])
+@main("Quotes list") {
+    <script>
+            function del(urlToDelete) {
+                $.ajax({
+                    url: urlToDelete, type: 'DELETE', success: function (results) {
+                        location.reload();
+                    },
+                    error: function(err){console.log(err)}
+
+                });
+            }
+
+            function add(urlToDelete) {
+                $.ajax({
+                    url: urlToDelete, type: 'POST', success: function (results) {
+                        location.reload();
+                    },
+                    error: function(err){console.log(err)}
+                });
+            }
+
+            function sub(urlToDelete) {
+                $.ajax({
+                    url: urlToDelete, type: 'POST', success: function (results) {
+                        location.reload();
+                    }
+                });
+            }
+    </script>
+
+    <h2>All quotes</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Id</th><th>Content</th><th>Author</th><th>Rating</th><th></th></tr>
+        </thead>
+        <tbody>
+        @for(quote <- quotes) {
+            <tr>
+                <td>
+                    <a href="@routes.QuoteController.details(quote)"><i class="fas fa-pencil-alt"></i> @quote.id</a>
+                </td>
+                <td>
+                    <a href="@routes.QuoteController.details(quote)">@quote.content</a>
+                </td>
+                <td>
+                    <a href="@routes.QuoteController.details(quote)"><i class="fas fa-pencil-alt"></i>@quote.rate</a>
+                    @if(quote.rate<5){
+                    <a onclick="javascript:add('@routes.QuoteController.addRating(quote.id)')"><button id="plus" type="button" class="btn btn-default btn-sm btn-success" onclick="add(quote)">
+                    <span class="glyphicon glyphicon-plus"></span> +
+                    </button></a>}
+                    @if(quote.rate>0){
+                    <a onclick="javascript:sub('@routes.QuoteController.subRating(quote.id)')"><button id="minus" type="button" class="btn btn-default btn-sm btn-danger" onclick="sub(quote)">
+                    <span class="glyphicon glyphicon-minus"></span> -
+                    </button></a>}
+                </td>
+                <td>
+                    <a onclick="javascript:del('@routes.QuoteController.delete(quote.id)')"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <a href="@routes.QuoteController.newQuote()" class="btn btn-primary"><i class="fas fa-plus-square"></i>Add quote</a>
+}

@@ -1,0 +1,39 @@
+@(students: List[Student])
+@main("Students list") {
+    <script>
+            function del(urlToDelete) {
+                $.ajax({
+                    url: urlToDelete, type: 'DELETE', success: function (results) {
+                        location.reload();
+                    }
+                });
+            }
+    </script>
+
+    <h2>All students</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Id</th><th>Name</th><th></th><th></th></tr>
+        </thead>
+        <tbody>
+        @for(student <- students) {
+            <tr>
+                <td>
+                    <a href="@routes.Students.details(student)"><i class="fas fa-pencil-alt"></i> @student.studId</a>
+                </td>
+                <td>
+                    <a href="@routes.Students.details(student)">@student.name</a>
+                </td>
+                <td>
+                    <a href="@routes.Students.details(student)"><i class="fas fa-pencil-alt"></i></a>
+                </td>
+                <td>
+                    <a onclick="javascript:del('@routes.Students.delete(student.studId)')"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <a href="@routes.Students.newStudent()" class="btn btn-primary"><i class="fas fa-plus-square"></i> Enroll student</a>
+}

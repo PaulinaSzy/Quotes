@@ -1,0 +1,29 @@
+@import helper._
+@import play.data._
+
+@(studentForm: Form[Student])
+
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-5") }
+
+@main("Student form") {
+
+    <h1>Student edit form</h1>
+
+    @helper.form(action = routes.Students.save(), 'enctype -> "multipart/form-data", 'class -> "form-group") {
+        @helper.CSRF.formField
+        <fieldset>
+            <legend id="horizontal-form" class="page-header">
+                Account: ( @studentForm("name").getValue().orElse("New student") )
+            </legend>
+            <input type="hidden" value="@studentForm("id").getValue().orElse("")" name="id" />
+            @b4.text(studentForm("studId"), '_label -> "Student ID", '_placeholder -> "0000")
+            @b4.text(studentForm("name"), '_label -> "Name", '_placeholder -> "Name")
+            @b4.text(studentForm("birthDate"), '_label -> "Date of birth", '_placeholder -> "dd-mm-yyyy")
+            @b4.file(studentForm("picture"), '_label -> "Photo")
+        </fieldset>
+        @b4.free('_id -> "idStudentGroup") {
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            <a class="btn btn-danger" href="@routes.Students.list()"><i class="fas fa-trash-alt"></i> Cancel</a>
+        }
+    }
+}

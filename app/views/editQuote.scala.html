@@ -1,0 +1,29 @@
+@import helper._
+@import play.data._
+
+@(quoteForm: Form[Quote])
+
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-2", "col-md-5") }
+
+@main("Quote form") {
+
+    <h1>Quote edit form</h1>
+
+    @helper.form(action = routes.QuoteController.save(), 'enctype -> "multipart/form-data", 'class -> "form-group") {
+        @helper.CSRF.formField
+        <fieldset>
+            <legend id="horizontal-form" class="page-header">
+                 @quoteForm("content").getValue().orElse("New quote")
+            </legend>
+            <input type="hidden" value="@quoteForm("id").getValue().orElse("")" name="id" />
+            @b4.text(quoteForm("id"), '_label -> "Quote ID", '_placeholder -> "0000")
+            @b4.text(quoteForm("content"), '_label -> "Content", '_placeholder -> "Enter the quote")
+            @b4.text(quoteForm("author"), '_label -> "Author", '_placeholder -> "Enter the author")
+            @b4.text(quoteForm("rate"), '_label -> "Rating", '_placeholder -> "0")
+        </fieldset>
+        @b4.free('_id -> "idStudentGroup") {
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            <a class="btn btn-danger" href="@routes.QuoteController.list()"><i class="fas fa-trash-alt"></i> Cancel</a>
+        }
+    }
+}
